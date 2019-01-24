@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SyncStandard</name>
+    </assembly>
+    <members>
+        <member name="T:System.Threading.Tasks.Sync">
+            <summary>
+            Helper class to properly wait for async tasks
+            </summary>
+        </member>
+        <member name="M:System.Threading.Tasks.Sync.Run``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Run an async function synchronously and return the result
+            </summary>
+        </member>
+        <member name="M:System.Threading.Tasks.Sync.Run(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Run an async function synchronously
+            </summary>
+        </member>
+    </members>
+</doc>
