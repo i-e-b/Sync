@@ -1,6 +1,6 @@
 # Sync
 
-A reasonable and reliable way to terminate C# async tasks.
+A reasonable and reliable way to run C# async tasks synchronously, without risking deadlocks.
 
 ## Use
 
