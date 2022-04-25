@@ -1,4 +1,8 @@
 ﻿// ReSharper disable once CheckNamespace
+
+using System;
+using JetBrains.Annotations;
+
 namespace System.Threading.Tasks
 {
     /// <summary>
@@ -15,13 +19,13 @@ namespace System.Threading.Tasks
         /// <summary>
         /// Run an async function synchronously and return the result
         /// </summary>
-        public static TResult Run<TResult>(Func<Task<TResult>> func)
+        public static TResult Run<TResult>([InstantHandle]Func<Task<TResult>>? func)
         {
-            if (_taskFactory == null) throw new Exception("Static init failed");
-            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (_taskFactory is null) throw new Exception("Static init failed");
+            if (func is null) throw new ArgumentNullException(nameof(func));
 
             var rawTask = _taskFactory.StartNew(func).Unwrap();
-            if (rawTask == null) throw new Exception("Invalid task");
+            if (rawTask is null) throw new Exception("Invalid task");
 
             return rawTask.GetAwaiter().GetResult();
         }
@@ -29,15 +33,25 @@ namespace System.Threading.Tasks
         /// <summary>
         /// Run an async function synchronously
         /// </summary>
-        public static void Run(Func<Task> func)
+        public static void Run([InstantHandle]Func<Task> func)
         {
-            if (_taskFactory == null) throw new Exception("Static init failed");
-            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (_taskFactory is null) throw new Exception("Static init failed");
+            if (func is null) throw new ArgumentNullException(nameof(func));
 
             var rawTask = _taskFactory.StartNew(func).Unwrap();
-            if (rawTask == null) throw new Exception("Invalid task");
+            if (rawTask is null) throw new Exception("Invalid task");
 
             rawTask.GetAwaiter().GetResult();
         }
     }
+}
+
+namespace JetBrains.Annotations
+{
+    /// <summary>
+    /// Tells the code analysis engine if the parameter is completely handled when the invoked method is on stack.
+    /// If the parameter is a delegate, indicates that delegate is executed while the method is executed.
+    /// If the parameter is an enumerable, indicates that it is enumerated while the method is executed.
+    /// </summary>
+    internal class InstantHandleAttribute : Attribute { }
 }
